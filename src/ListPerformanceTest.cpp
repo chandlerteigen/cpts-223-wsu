@@ -92,9 +92,9 @@ int ListPerformanceTest::findMed()
         {
             iter++;
         }
-        median = *iter + *(iter++);
+        median = (*iter + *(iter++)) / 2;
     }
-    
+
     else
     {
         for(int i = 1; i <= size / 2; i++)
