@@ -5,6 +5,8 @@
 void Max_Sub_Sum_Test::run_app()
 {
     std::ofstream outfile("test_output.csv");
+    // call each test function with a different function pointer to the algorithm of choice
+    // all four functions output to the same file
     test_algorithm(&Max_Sub_Sum_Test::max_sub_sum1, "max_sub_sum1", outfile);
     test_algorithm(&Max_Sub_Sum_Test::max_sub_sum2, "max_sub_sum2", outfile);
     test_algorithm(&Max_Sub_Sum_Test::max_sub_sum3, "max_sub_sum3", outfile);
@@ -65,6 +67,7 @@ int Max_Sub_Sum_Test::max_sub_sum3_rec(const std::vector<int> &vec, int left, in
     int max_left_sum = max_sub_sum3_rec(vec, left, center);
     int max_right_sum = max_sub_sum3_rec(vec, center + 1, right);
 
+    //calculate the left sum
     int max_left_border_sum = 0, left_border_sum = 0;
     for(int i = center; i >= left; i--)
     {
@@ -72,7 +75,7 @@ int Max_Sub_Sum_Test::max_sub_sum3_rec(const std::vector<int> &vec, int left, in
         if(left_border_sum > max_left_border_sum)
             max_left_border_sum = left_border_sum;
     }
-
+    //calculate the right sum
     int max_right_border_sum = 0, right_border_sum = 0;
     for(int j = center + 1; j <= right; j++)
     {
@@ -80,15 +83,17 @@ int Max_Sub_Sum_Test::max_sub_sum3_rec(const std::vector<int> &vec, int left, in
         if(right_border_sum > max_right_border_sum)
             max_right_border_sum = right_border_sum;
     }
-
+    //determine which sum was the largest and return that sum
     return max3(max_left_sum, max_right_sum, max_left_border_sum + max_right_border_sum);
 }
 
+//driver function for the recursive algorithm
 int Max_Sub_Sum_Test::max_sub_sum3(const std::vector<int> &vec)
 {
     return max_sub_sum3_rec(vec, 0, vec.size() - 1);
 }
 
+//max3 finds the max of the three numbers
 int Max_Sub_Sum_Test::max3(int num1, int num2, int num3)
 {
     int max = num1;
@@ -104,6 +109,7 @@ int Max_Sub_Sum_Test::max_sub_sum4(const std::vector<int> &vec)
 {
     int max_sum = 0, cur_sum = 0;
 
+    //only iterate through the list once, it the sum goes negative, it can't be part of the max sub sum
     for(int j = 0; j < vec.size(); j++)
     {
         cur_sum += vec[j];
@@ -124,7 +130,7 @@ std::vector<int>& Max_Sub_Sum_Test::load_vector_from_file(std::vector<int> &vec,
     while(!(infile.eof()))
     {
         infile >> temp_int;
-        vec.push_back(temp_int);
+        vec.push_back(temp_int); // push_back integers from the file into an std::vector
     }
 
     return vec;
@@ -160,7 +166,6 @@ std::vector<std::string>& Max_Sub_Sum_Test::generate_file_names(std::vector<std:
             file_name.assign(base_file_name);
         }
     }
-
     return file_name_vec;
 }
 
@@ -172,25 +177,24 @@ void Max_Sub_Sum_Test::test_algorithm(int (Max_Sub_Sum_Test::*alg_ptr)(const std
     
     std::vector<int> number_vector;
 
-    //long long total_time = 0;
     int sum = 0;
 
     for(int i = 0; i < file_name_vec.size(); i++)
     {
         infile.open(file_name_vec[i]);
-        //std::cout << file_name_vec[i] << ": ";
+
         number_vector = load_vector_from_file(number_vector, infile);
 
-        
+        //start timer after the vector is loaded
         timer.start();
         sum = (this->*alg_ptr)(number_vector); // use function pointer to call sub sum algorithm
         timer.stop();
-        //timer.printTime();
 
-        number_vector.clear();
+        number_vector.clear(); // clear the vector so it can be reused in next iteration of the for loop
         
         infile.close();
-        std::cout << alg_name << ',' << 8*pow(2, i / 10) << ',' << sum << ',' << timer.getLength().count() << '\n';
+        //this line will print the same info that is outputted to the file into the standard output
+        //std::cout << alg_name << ',' << 8*pow(2, i / 10) << ',' << sum << ',' << timer.getLength().count() << '\n';
         outfile << alg_name << ',' << 8*pow(2, i / 10) << ',' << sum << ',' << timer.getLength().count() << '\n';
     }
 }
