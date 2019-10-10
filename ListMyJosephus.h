@@ -63,7 +63,7 @@ public:
 
 	void printElimSequence() const;
 
-	void playGame();
+
 
 	// any other member functions of your choice
 	// ....

@@ -63,8 +63,8 @@ int ListMyJosephus::getWinner()
 void ListMyJosephus::eliminateNext()
 {   
     std::list<Person>::iterator iter = circ.begin();
-
-    if(currentPotatoHolder + M < currentSize())
+    
+    if(currentPotatoHolder + M < currentSize()) // next potato position is inside list bounds
     {
         iter = std::next(iter, currentPotatoHolder + M);
         elimSequence.push_back(iter->getPosition());
@@ -72,10 +72,10 @@ void ListMyJosephus::eliminateNext()
         currentPotatoHolder += M;
     }
     else
-    {
+    { // overlap represent amount that needs to be wrapped into beginning of list
         int overlap = (currentPotatoHolder + M) % currentSize();
 
-        iter = std::next(iter, overlap);
+        iter = std::next(iter, overlap); // traverse overlap number of nodes
         elimSequence.push_back(iter->getPosition());
         circ.erase(iter);
         currentPotatoHolder = overlap;
@@ -102,7 +102,3 @@ void ListMyJosephus::printElimSequence() const
     }
 }
 
-void ListMyJosephus::playGame()
-{
-    
-}

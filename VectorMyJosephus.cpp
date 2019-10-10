@@ -68,6 +68,7 @@ void VectorMyJosephus::printElimSequence() const
 
 int VectorMyJosephus::getWinner() const
 {
+    //returns the winner, if someone has won
     int winner = 0;
     if (currentSize() == 1)
     {
@@ -82,16 +83,18 @@ int VectorMyJosephus::getWinner() const
 }
 
 void VectorMyJosephus::eliminateNext()
-{   
+{   //if next potato position is in the bounds of the vector
     if(currentPotatoHolder + M < currentSize())
     {
-    auto iter = circ.begin() + currentPotatoHolder + M;
-    elimSequence.push_back(iter->getPosition());
-    circ.erase(iter); //erases the Mth person after the current holder
-    currentPotatoHolder += M;
+        // incrememnt the potato position
+        auto iter = circ.begin() + currentPotatoHolder + M;
+        elimSequence.push_back(iter->getPosition()); // add to elim sequence
+        circ.erase(iter); //erases the Mth person after the current holder
+        currentPotatoHolder += M;
     }
-    else
+    else // the potato needs to wrao back to the beginning of the vector
     {
+        //overlap represents the amount that the potato wraps around back into the circle
         int overlap = (currentPotatoHolder + M) % currentSize();
         circ.erase(circ.begin() + overlap);
         currentPotatoHolder = overlap;
