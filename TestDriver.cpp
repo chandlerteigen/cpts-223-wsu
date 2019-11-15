@@ -6,6 +6,14 @@
  *              which schedules processor time to jobs using a min heap
  *              to determine the job with the shortest run-time.
 ************************************************************************/
+
+
+/*
+To compile the code: g++ Job.cpp Scheduler.cpp TestDriver.cpp Processor.cpp -o ex
+To run the exe:      ./ex
+*/
+
+
 #include "Scheduler.h"
 #include <queue>
 #include <initializer_list>
