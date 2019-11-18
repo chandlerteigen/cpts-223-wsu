@@ -82,6 +82,21 @@ struct Job_N_Ticks_Greater
     }
 };
 
+struct Job_Ticks_Left_Greater
+{
+/**************************************************************************************
+* Function: Job_Ticks_Left_Greater::operator()
+* Arguments: const Job&, const Job&
+* Returns: bool
+* Description: functor for the Job class. compares the ticks_left member using the > operator.
+               created to implement a priority_queue<Job> as a min heap for the running
+               job queue. 
+***************************************************************************************/
+    bool operator()(const Job &lhs, const Job &rhs) const
+    {
+        return lhs.get_ticks_left() > rhs.get_ticks_left();
+    }
+};
 
 #endif
 

@@ -132,29 +132,27 @@ void Scheduler::run_job(Job job)
     //subtract the procs needed from the number available
     num_free_procs -= job.get_n_procs();
     //push job into the running jobs vector
+    //and retain min heap property
     running_job_queue.push_back(job);
+    //sort min heap using ticks_left
+    std::push_heap(running_job_queue.begin(), running_job_queue.end(), Job_Ticks_Left_Greater());
 
     assign_procs(job);
 }
 
 void Scheduler::erase_finished_jobs()
 {
-    std::vector<Job>::iterator iter = running_job_queue.begin();
-    while(iter != running_job_queue.end())
+    while(!running_job_queue.empty() && running_job_queue.front().get_ticks_left() == 0)
     {
-        if (iter->get_ticks_left() == 0)
-        {
-            num_free_procs += iter->get_n_procs();
-            release_procs(iter->get_job_id());
-            std::cout << "\n*****procs being released for job******" << std::endl;
-            std::cout << *iter << "********************************\n" << std::endl;
-            iter = running_job_queue.erase(iter);
-        }
-        else
-        {
-            iter++;
-        }
-        
+        //update num_free_prcs
+        num_free_procs += running_job_queue.front().get_n_procs();
+        //actually release the Processor objects
+        release_procs(running_job_queue.front().get_job_id());
+        std::cout << "\n*****procs being released for job******" << std::endl;
+        std::cout << running_job_queue.front() << "********************************\n" << std::endl;
+        //remove the job from the heap while mainting heap properties
+        std::pop_heap(running_job_queue.begin(), running_job_queue.end(), Job_Ticks_Left_Greater());
+        running_job_queue.pop_back();
     }
 }
 
@@ -198,6 +196,7 @@ void Scheduler::decrement_timer()
     std::vector<Job>::iterator iter = running_job_queue.begin();
 
     //decrement the ticks_left of every job in the running queue
+    //retains heap properties still
     for (; iter != running_job_queue.end(); iter++)
         iter->decrement_ticks_left();
 }

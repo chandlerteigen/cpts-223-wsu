@@ -14,6 +14,7 @@
 #include "Job.h"
 #include <queue>
 #include <vector>
+#include <algorithm>
 
 class Scheduler
 {
@@ -130,7 +131,7 @@ private:
 
     int num_procs;
     int num_free_procs;
-    std::priority_queue< Job, std::vector<Job>, Job_N_Ticks_Greater > waiting_job_queue;
+    std::priority_queue< Job, std::vector<Job>, Job_N_Ticks_Greater > waiting_job_queue; 
     std::vector<Job> running_job_queue;
     std::vector<Processor> processor_bank;
     std::ifstream job_input_file;
