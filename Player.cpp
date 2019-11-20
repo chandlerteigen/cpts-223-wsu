@@ -36,7 +36,7 @@ bool Player::operator< (const Player &rhs) const
 
 std::ostream &operator<< (std::ostream &lhs, const Player &rhs)
 {
-    std::cout << "ID: " << rhs.get_ID() << "    Position: " << rhs.get_position();
+    lhs << "ID: " << rhs.get_ID() << "    Position: " << rhs.get_position();
     return lhs;
 }
 

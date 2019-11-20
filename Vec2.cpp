@@ -118,7 +118,7 @@ bool operator== (const Vec2 &lhs, const Vec2 &rhs)
 
 std::ostream &operator<< (std::ostream &lhs, const Vec2 &rhs)
 {
-    std:: cout << "x: " << rhs.get_x() << "   y: " << rhs.get_y();
+    lhs << "x: " << rhs.get_x() << "   y: " << rhs.get_y();
     return lhs;
 }
 
