@@ -81,8 +81,8 @@ std::istream &operator>> (std::ifstream &lhs, Job &rhs)
 
 std::ostream &operator<< (std::ostream &lhs, const Job &rhs)
 {
-    std::cout << "ID: " << rhs.get_job_id() << "  Desc.: " << rhs.get_job_description();
-    std::cout << "  n_procs: " << rhs.get_n_procs() << "  n_ticks: " << rhs.get_n_ticks() << std::endl;
+    lhs << "ID: " << rhs.get_job_id() << "  Desc.: " << rhs.get_job_description();
+    lhs << "  n_procs: " << rhs.get_n_procs() << "  n_ticks: " << rhs.get_n_ticks() << std::endl;
     return lhs;
 }
 
